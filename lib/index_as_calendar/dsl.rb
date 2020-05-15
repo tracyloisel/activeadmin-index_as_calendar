@@ -55,7 +55,7 @@ module IndexAsCalendar
           items = items.send(params[:scope]) if params[:scope].present?
           items = items.includes(options[:includes]) unless options[:includes].blank?
           items = items.where(options[:start_date] => params[:start].to_date...params[:end].to_date).ransack(params[:q]).result
-          binding.pry
+
           events = event_mapping(items, options)
 
           respond_to do |format|

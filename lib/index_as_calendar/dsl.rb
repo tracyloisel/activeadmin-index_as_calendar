@@ -51,10 +51,11 @@ module IndexAsCalendar
         # Defines collection_action to get events data
         collection_action :index_as_events, :method => :get do
           items = options[:model] || end_of_association_chain
+          items = send(options[:scoped_collection]) if options[:scoped_collection]
           items = items.send(params[:scope]) if params[:scope].present?
           items = items.includes(options[:includes]) unless options[:includes].blank?
           items = items.where(options[:start_date] => params[:start].to_date...params[:end].to_date).ransack(params[:q]).result
-
+          binding.pry
           events = event_mapping(items, options)
 
           respond_to do |format|
